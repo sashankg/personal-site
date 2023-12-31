@@ -25,9 +25,9 @@ macros = { path = "./macros" }
 web-sys = "0.3.66"
 
 [features]
-ssr = ["leptos/ssr", "tokio", "sqlx", "reqwest", "rss", "comrak"]
+ssr = ["leptos/ssr", "tokio", "sqlx", "reqwest", "rss"]
 hydrate = ["leptos/hydrate"]
-dev = ["leptos/ssr", "rouille", "tokio", "sqlx", "reqwest", "rss", "comrak"]
+dev = ["leptos/ssr", "rouille", "tokio", "sqlx", "reqwest", "rss"]
 
 [package.metadata.leptos]
 # The features to use when compiling the bin target
