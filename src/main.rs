@@ -33,10 +33,13 @@ fn main() {
                 .await
             });
         let path = if *path == "/" { "index" } else { path };
-        fs::write(
+        match fs::write(
             format!("output/{}.html", path),
             template.replace("{body}", &body),
-        );
+        ) {
+            Ok(_) => println!("{} written", path),
+            Err(e) => println!("Error writing {}: {}", path, e),
+        }
     }
 }
 
