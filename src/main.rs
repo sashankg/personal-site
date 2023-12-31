@@ -34,7 +34,7 @@ fn main() {
             });
         let path = if *path == "/" { "index" } else { path };
         match fs::write(
-            format!("output/{}.html", path),
+            format!("target/site/pkg/{}.html", path),
             template.replace("{body}", &body),
         ) {
             Ok(_) => println!("{} written", path),
