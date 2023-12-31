@@ -10,7 +10,9 @@ env:
 
 jobs:
   deploy:
-
+    permissions:
+      id-token: write
+      
     runs-on: self-hosted
 
     steps:
