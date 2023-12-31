@@ -18,7 +18,6 @@ pub fn async_component(_: proc_macro::TokenStream, item: TokenStream) -> TokenSt
                     let v = async move #block.await;
                     return leptos::ssr::render_to_string_async(|| v.into_view()).await;
                 });
-                resource.with(|x| println!("{:?}", x));
                 return leptos::view! {
                     <Suspense>
                         {move || {
