@@ -9,12 +9,8 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  deploy:
-    permissions:
-      id-token: write
-      
+  build:
     runs-on: self-hosted
-
     steps:
     - uses: actions/checkout@v3
     - name: Build
@@ -24,6 +20,12 @@ jobs:
     - uses: actions/upload-pages-artifact@v2
       with:
         path: "target/site/pkg/"
+  deploy: 
+    needs: ["build"]
+    permissions:
+      id-token: write
+    runs-on: self-hosted
+    steps:
     - uses: actions/deploy-pages@v4.0.2
       with:
         # Is this attempting to deploy a pull request as a GitHub Pages preview site? (NOTE: This feature is only in alpha currently and is not available to the public!)
