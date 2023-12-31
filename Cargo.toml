@@ -1,0 +1,56 @@
+workspace = { members = ["macros"] }
+[package]
+name = "personal-site"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+cfg-if = "1.0.0"
+console_error_panic_hook = "0.1.7"
+console_log = "1.0.0"
+leptos = { version = "0.5.2", features = ["nightly", "experimental-islands"] }
+log = "0.4.20"
+reqwest = { version="0.11.23", optional = true }
+rouille = { version = "3.6.2", optional = true }
+rss = { version="2.0.6", optional = true}
+serde = "1.0.193"
+sqlx = { version = "0.7.3", features = ["sqlite", "runtime-tokio", "macros"], optional=true }
+tokio = { version = "1.34.0", features = ["rt-multi-thread"], optional = true }
+macros = { path = "./macros" }
+web-sys = "0.3.66"
+
+[features]
+ssr = ["leptos/ssr", "tokio", "sqlx", "reqwest", "rss", "comrak"]
+hydrate = ["leptos/hydrate"]
+dev = ["leptos/ssr", "rouille", "tokio", "sqlx", "reqwest", "rss", "comrak"]
+
+[package.metadata.leptos]
+# The features to use when compiling the bin target
+#
+# Optional. Can be over-ridden with the command line parameter --bin-features
+bin-features = ["ssr"]
+
+# If the --no-default-features flag should be used when compiling the bin target
+#
+# Optional. Defaults to false.
+bin-default-features = false
+
+# The features to use when compiling the lib target
+#
+# Optional. Can be over-ridden with the command line parameter --lib-features
+lib-features = ["hydrate"]
+
+# If the --no-default-features flag should be used when compiling the lib target
+#
+# Optional. Defaults to false.
+lib-default-features = false
+
+# The tailwind input file.
+#
+# Optional, Activates the tailwind build
+tailwind-input-file = "index.css"

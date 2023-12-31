@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Sashank Portfolio</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/target/site/pkg/leptos-tutorial.css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200..700&family=Inter:wght@200..700&display=swap" rel="stylesheet">
+    </head>
+    {body}
+    <script type="module">
+    function idle(c) {
+        if ("requestIdleCallback"in window) {
+            window.requestIdleCallback(c);
+        } else {
+            c();
+        }
+    }
+    idle(()=>{
+        import('/target/site/pkg/leptos-tutorial.js').then(mod=>{
+            mod.default('/target/site/pkg/leptos-tutorial.wasm').then(()=>{
+                for (let e of document.querySelectorAll("leptos-island")) {
+                    let l = e.dataset.component;
+                    mod["_island_" + l](e);
+                }
+                mod.hydrate();
+            }
+            );
+        }
+        )
+    });
+    </script>
+</html>
