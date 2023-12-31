@@ -24,6 +24,7 @@ jobs:
     needs: ["build"]
     permissions:
       id-token: write
+      actions: read
     runs-on: self-hosted
     steps:
     - uses: actions/deploy-pages@v4.0.2
