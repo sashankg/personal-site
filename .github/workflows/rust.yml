@@ -1,23 +1,28 @@
 name: Rust
-
 on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  deploy:
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
+      run: cargo leptos build -r
+    - name: Run
+      run: cargo run -r --features=ssr
+    - uses: actions/upload-pages-artifact@v2
+      with:
+        path: "target/site/pkg/"
+    - uses: actions/deploy-pages@v4.0.2
+      with:
+        # Is this attempting to deploy a pull request as a GitHub Pages preview site? (NOTE: This feature is only in alpha currently and is not available to the public!)
+        preview: true
