@@ -12,7 +12,7 @@ const ROUTES: [&str; 3] = ["/", "/projects", "/movies"];
 #[cfg(feature = "ssg")]
 fn main() {
     use sqlx::SqlitePool;
-    let template = fs::read_to_string("index.html").expect("Unable to read index.html");
+    let template = mustache::compile_path("index.mustache").unwrap();
 
     let rt = tokio::runtime::Runtime::new().unwrap();
 
@@ -32,12 +32,14 @@ fn main() {
             .await
         });
         let path = if *path == "/" { "index" } else { path };
-        match fs::write(
-            format!("target/site/pkg/{}.html", path),
-            template.replace("{body}", &body),
-        ) {
-            Ok(_) => println!("{} written", path),
-            Err(e) => println!("Error writing {}: {}", path, e),
+        let data = mustache::MapBuilder::new()
+            .insert_str("baseUrl", "/personal-site/")
+            .insert_str("body", body)
+            .build();
+        let mut file = fs::File::create(format!("target/site/pkg/{}.html", path)).unwrap();
+        match template.render_data(&mut file, &data) {
+            Ok(_) => println!("Successfully rendered {}", path),
+            Err(e) => println!("Failed to render {}: {}", path, e),
         }
     }
 }
@@ -48,7 +50,7 @@ fn main() {
     use sqlx::SqlitePool;
     rouille::start_server("127.0.0.1:3000", move |request| {
         if request.url() == "/" || request.url() == "/projects" || request.url() == "/movies" {
-            let template = fs::read_to_string("index.html").expect("Unable to read index.html");
+            let template = mustache::compile_path("index.mustache").unwrap();
 
             let rt = tokio::runtime::Runtime::new().unwrap();
 
@@ -62,8 +64,11 @@ fn main() {
                 leptos::ssr::render_to_string_async(|| App(AppProps { path, db_pool }).into_view())
                     .await
             });
-
-            return Response::html(template.replace("{body}", &body));
+            let data = mustache::MapBuilder::new()
+                .insert_str("baseUrl", "/target/site/pkg/")
+                .insert_str("body", body)
+                .build();
+            return Response::html(template.render_data_to_string(&data).unwrap());
         }
         rouille::match_assets(request, ".")
     });

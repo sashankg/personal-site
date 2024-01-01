@@ -435,7 +435,7 @@ version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "be8aed40e4edbf4d3b4431ab260b63fdc40f5780a4766824329ea0f1eefe3c0f"
 dependencies = [
- "log",
+ "log 0.4.20",
  "web-sys",
 ]
 
@@ -1475,6 +1475,15 @@ dependencies = [
 
 [[package]]
 name = "log"
+version = "0.3.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e19e8d5c34a3e0e2223db8e060f9e8264aeeb5c5fc64a4ee9965c062211c024b"
+dependencies = [
+ "log 0.4.20",
+]
+
+[[package]]
+name = "log"
 version = "0.4.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b5e6163cb8c49088c2c36f57875e58ccd8c87c7427f7fbd50ea6710b2f3f2e8f"
@@ -1578,7 +1587,7 @@ checksum = "00dec633863867f29cb39df64a397cdf4a6354708ddd7759f70c7fb51c5f9182"
 dependencies = [
  "buf_redux",
  "httparse",
- "log",
+ "log 0.4.20",
  "mime",
  "mime_guess",
  "quick-error",
@@ -1589,6 +1598,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "mustache"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "51956ef1c5d20a1384524d91e616fb44dfc7d8f249bf696d49c97dd3289ecab5"
+dependencies = [
+ "log 0.3.9",
+ "serde",
+]
+
+[[package]]
 name = "native-tls"
 version = "0.2.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1596,7 +1615,7 @@ checksum = "07226173c32f2926027b63cce4bcd8076c3552846cbe7925f3aaffeac0a3b92e"
 dependencies = [
  "lazy_static",
  "libc",
- "log",
+ "log 0.4.20",
  "openssl",
  "openssl-probe",
  "openssl-sys",
@@ -1823,8 +1842,9 @@ dependencies = [
  "console_error_panic_hook",
  "console_log",
  "leptos",
- "log",
+ "log 0.4.20",
  "macros",
+ "mustache",
  "reqwest",
  "rouille",
  "rss",
@@ -2140,7 +2160,7 @@ dependencies = [
  "hyper-tls",
  "ipnet",
  "js-sys",
- "log",
+ "log 0.4.20",
  "mime",
  "native-tls",
  "once_cell",
@@ -2621,7 +2641,7 @@ dependencies = [
  "hashlink",
  "hex",
  "indexmap",
- "log",
+ "log 0.4.20",
  "memchr",
  "once_cell",
  "paste",
@@ -2701,7 +2721,7 @@ dependencies = [
  "hkdf",
  "hmac",
  "itoa",
- "log",
+ "log 0.4.20",
  "md-5",
  "memchr",
  "once_cell",
@@ -2741,7 +2761,7 @@ dependencies = [
  "hmac",
  "home",
  "itoa",
- "log",
+ "log 0.4.20",
  "md-5",
  "memchr",
  "once_cell",
@@ -2772,7 +2792,7 @@ dependencies = [
  "futures-intrusive",
  "futures-util",
  "libsqlite3-sys",
- "log",
+ "log 0.4.20",
  "percent-encoding",
  "serde",
  "sqlx-core",
@@ -2936,7 +2956,7 @@ dependencies = [
  "ascii",
  "chunked_transfer",
  "httpdate",
- "log",
+ "log 0.4.20",
 ]
 
 [[package]]
@@ -3026,7 +3046,7 @@ version = "0.1.40"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c3523ab5a71916ccf420eebdf5521fcef02141234bbc0b8a49f2fdc4544364ef"
 dependencies = [
- "log",
+ "log 0.4.20",
  "pin-project-lite",
  "tracing-attributes",
  "tracing-core",
@@ -3227,7 +3247,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1b56f625e64f3a1084ded111c4d5f477df9f8c92df113852fa5a374dbda78826"
 dependencies = [
  "bumpalo",
- "log",
+ "log 0.4.20",
  "once_cell",
  "proc-macro2",
  "quote",

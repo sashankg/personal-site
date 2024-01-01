@@ -23,6 +23,7 @@ sqlx = { version = "0.7.3", features = ["sqlite", "runtime-tokio", "macros"], op
 tokio = { version = "1.34.0", features = ["rt-multi-thread"], optional = true }
 macros = { path = "./macros" }
 web-sys = "0.3.66"
+mustache = "0.9.0"
 
 [features]
 ssg = ["leptos/ssr", "tokio", "sqlx", "reqwest", "rss"]
