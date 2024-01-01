@@ -1,4 +1,4 @@
-name: Rust
+name: Publish
 on:
   workflow_dispatch:
   push:
@@ -27,18 +27,18 @@ jobs:
     - run: cargo install --locked cargo-leptos
     - name: Build
       run: cargo +nightly leptos build -r
-    - name: Run
+    - name: Generate
       run: cargo +nightly run -r --features=ssr
     - uses: actions/upload-pages-artifact@v3
       with:
         path: "target/site/pkg/"
         
   deploy: 
+    runs-on: ubuntu-latest
     needs: ["build"]
     permissions:
       id-token: write
       actions: read
       pages: write
-    runs-on: self-hosted
     steps:
     - uses: actions/deploy-pages@v4.0.2
