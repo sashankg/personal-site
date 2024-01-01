@@ -1,3 +1,4 @@
+use crate::router::Link;
 use leptos::*;
 use serde::*;
 
@@ -71,11 +72,11 @@ pub fn HomePage() -> impl IntoView {
 #[component]
 fn NavLink(title: String, #[prop(optional)] path: String) -> impl IntoView {
     view! {
-        <a href={path} class="text-secondary ">
+        <Link path={path} class="text-secondary">
             <li>
                 {title}
             </li>
-        </a>
+        </Link>
     }
 }
 

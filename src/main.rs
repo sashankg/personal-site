@@ -1,11 +1,11 @@
 mod app;
 mod components;
 mod islands;
+mod router;
 mod routes;
 
 use crate::app::*;
 use leptos::*;
-use std::fs;
 
 const ROUTES: [&str; 3] = ["/", "/projects", "/movies"];
 
@@ -25,6 +25,7 @@ fn main() {
             leptos::ssr::render_to_string_async(|| {
                 App(AppProps {
                     path: path.to_string(),
+                    base_url: "/personal-site/".to_string(),
                     db_pool,
                 })
                 .into_view()
@@ -61,9 +62,17 @@ fn main() {
 
             let body = local.block_on(&rt, async {
                 let db_pool = SqlitePool::connect("data.db").await.unwrap();
-                leptos::ssr::render_to_string_async(|| App(AppProps { path, db_pool }).into_view())
-                    .await
+                leptos::ssr::render_to_string_async(|| {
+                    App(AppProps {
+                        path,
+                        db_pool,
+                        base_url: "".to_string(),
+                    })
+                    .into_view()
+                })
+                .await
             });
+            println!("Rendered {}", body);
             let data = mustache::MapBuilder::new()
                 .insert_str("baseUrl", "/target/site/pkg/")
                 .insert_str("body", body)
@@ -73,8 +82,3 @@ fn main() {
         rouille::match_assets(request, ".")
     });
 }
-
-// #[cfg(feature = "hydrate")]
-// fn main() {
-//     println!("Hello, world!");
-// }
