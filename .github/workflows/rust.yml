@@ -22,6 +22,7 @@ jobs:
           ~/.cargo/git/db/
           target/
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+    - run: cargo install --locked cargo-leptos
     - name: Build
       run: cargo leptos build -r
     - name: Run
@@ -29,6 +30,7 @@ jobs:
     - uses: actions/upload-pages-artifact@v3
       with:
         path: "target/site/pkg/"
+        
   deploy: 
     needs: ["build"]
     permissions:
