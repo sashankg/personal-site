@@ -25,7 +25,7 @@ macros = { path = "./macros" }
 web-sys = "0.3.66"
 
 [features]
-ssr = ["leptos/ssr", "tokio", "sqlx", "reqwest", "rss"]
+ssg = ["leptos/ssr", "tokio", "sqlx", "reqwest", "rss"]
 hydrate = ["leptos/hydrate"]
 dev = ["leptos/ssr", "rouille", "tokio", "sqlx", "reqwest", "rss"]
 
@@ -33,7 +33,7 @@ dev = ["leptos/ssr", "rouille", "tokio", "sqlx", "reqwest", "rss"]
 # The features to use when compiling the bin target
 #
 # Optional. Can be over-ridden with the command line parameter --bin-features
-bin-features = ["ssr"]
+bin-features = ["ssg"]
 
 # If the --no-default-features flag should be used when compiling the bin target
 #

@@ -9,7 +9,7 @@ use std::fs;
 
 const ROUTES: [&str; 3] = ["/", "/projects", "/movies"];
 
-#[cfg(feature = "ssr")]
+#[cfg(feature = "ssg")]
 fn main() {
     use sqlx::SqlitePool;
     let template = fs::read_to_string("index.html").expect("Unable to read index.html");
@@ -20,18 +20,17 @@ fn main() {
     let local = tokio::task::LocalSet::new();
 
     for path in ROUTES.iter() {
-        let body =
-            local.block_on(&rt, async {
-                let db_pool = SqlitePool::connect("data.db").await.unwrap();
-                leptos::ssr::render_to_string_async(|| {
-                    App(AppProps {
-                        path: path.to_string(),
-                        db_pool,
-                    })
-                    .into_view()
+        let body = local.block_on(&rt, async {
+            let db_pool = SqlitePool::connect("data.db").await.unwrap();
+            leptos::ssr::render_to_string_async(|| {
+                App(AppProps {
+                    path: path.to_string(),
+                    db_pool,
                 })
-                .await
-            });
+                .into_view()
+            })
+            .await
+        });
         let path = if *path == "/" { "index" } else { path };
         match fs::write(
             format!("target/site/pkg/{}.html", path),
