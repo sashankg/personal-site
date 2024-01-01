@@ -25,9 +25,9 @@ jobs:
     - run: rustup target add wasm32-unknown-unknown
     - run: cargo install --locked cargo-leptos
     - name: Build
-      run: cargo leptos build -r
+      run: cargo +nightly leptos build -r
     - name: Run
-      run: cargo run -r --features=ssr
+      run: cargo +nightly run -r --features=ssr
     - uses: actions/upload-pages-artifact@v3
       with:
         path: "target/site/pkg/"
