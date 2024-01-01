@@ -22,7 +22,7 @@ jobs:
           ~/.cargo/git/db/
           target/
         key: ${{ runner.os }}-cargo-cache-${{ hashFiles('**/Cargo.lock') }}
-    - run: rustup target add wasm32-unknown-unknown
+    - run: rustup target add wasm32-unknown-unknown --toolchain nightly
     - run: rustup toolchain install nightly
     - run: cargo install --locked cargo-leptos
     - name: Build
