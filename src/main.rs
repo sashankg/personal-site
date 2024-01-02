@@ -12,6 +12,8 @@ const ROUTES: [&str; 3] = ["/", "/projects", "/movies"];
 #[cfg(feature = "ssg")]
 fn main() {
     use sqlx::SqlitePool;
+    use std::fs;
+
     let template = mustache::compile_path("index.mustache").unwrap();
 
     let rt = tokio::runtime::Runtime::new().unwrap();
