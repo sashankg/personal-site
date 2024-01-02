@@ -25,7 +25,7 @@ jobs:
     - name: Build
       run: cargo +nightly leptos build -r
     - name: Generate
-      run: cargo +nightly run -r --features=ssr
+      run: cargo +nightly run -r --features=ssg
     - uses: actions/upload-pages-artifact@v3
       with:
         path: "target/site/pkg/"
