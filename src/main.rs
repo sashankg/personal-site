@@ -74,7 +74,6 @@ fn main() {
                 })
                 .await
             });
-            println!("Rendered {}", body);
             let data = mustache::MapBuilder::new()
                 .insert_str("baseUrl", "/target/site/pkg/")
                 .insert_str("body", body)

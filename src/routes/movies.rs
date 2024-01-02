@@ -1,8 +1,8 @@
 use ::macros::async_component;
 use leptos::*;
 
-use crate::components::page::Page;
-use crate::islands::movie_list::{Movie, MovieList};
+use crate::components::Page;
+use crate::islands::{Movie, MovieList};
 
 #[async_component]
 pub async fn MoviesPage() -> impl IntoView {

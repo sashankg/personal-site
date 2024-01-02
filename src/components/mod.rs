@@ -1,1 +1,3 @@
-pub mod page;
+mod layout;
+
+pub use layout::*;

@@ -1,6 +1,6 @@
 use leptos::*;
 
-use crate::components::page::Page;
+use crate::components::Page;
 
 #[component]
 pub fn ProjectsPage() -> impl IntoView {

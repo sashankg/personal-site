@@ -1,1 +1,3 @@
-pub mod movie_list;
+mod movies;
+
+pub use movies::*;

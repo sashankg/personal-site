@@ -1,7 +1,7 @@
 use leptos::*;
 
 use crate::router::*;
-use crate::routes::{home::HomePage, movies::MoviesPage, projects::ProjectsPage};
+use crate::routes::*;
 
 #[component]
 pub fn App(
