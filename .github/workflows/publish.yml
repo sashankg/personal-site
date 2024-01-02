@@ -18,6 +18,7 @@ jobs:
           ~/.cargo/git/db/
           target/
         key: ${{ runner.os }}-cargo-cache-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: ${{ runner.os }}-cargo-cache-
     - run: rustup toolchain install nightly
     - run: rustup target add wasm32-unknown-unknown --toolchain nightly
     - run: cargo install --locked cargo-leptos
