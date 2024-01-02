@@ -5,36 +5,48 @@ mod router;
 mod routes;
 
 use crate::app::*;
+use crate::router::generate_route_list;
 use leptos::*;
-
-const ROUTES: [&str; 3] = ["/", "/projects", "/movies"];
+use sqlx::SqlitePool;
 
 #[cfg(feature = "ssg")]
-fn main() {
-    use sqlx::SqlitePool;
+#[tokio::main]
+async fn main() {
     use std::fs;
 
     let template = mustache::compile_path("index.mustache").unwrap();
 
-    let rt = tokio::runtime::Runtime::new().unwrap();
+    let db_pool = SqlitePool::connect("data.db").await.unwrap();
 
-    // Construct a local task set that can run `!Send` futures.
+    let db_pool_clone = db_pool.clone();
+    let route_list = generate_route_list(move || {
+        App(AppProps {
+            path: "".to_string(),
+            db_pool: db_pool_clone,
+            base_url: "".to_string(),
+        })
+    });
+
     let local = tokio::task::LocalSet::new();
 
-    for path in ROUTES.iter() {
-        let body = local.block_on(&rt, async {
-            let db_pool = SqlitePool::connect("data.db").await.unwrap();
-            leptos::ssr::render_to_string_async(|| {
+    for path in route_list {
+        let db_pool = db_pool.clone();
+        let path_clone = path.clone();
+        let body = local
+            .run_until(leptos::ssr::render_to_string_async(|| {
                 App(AppProps {
-                    path: path.to_string(),
+                    path: path_clone,
                     base_url: "/personal-site/".to_string(),
                     db_pool,
                 })
                 .into_view()
-            })
-            .await
-        });
-        let path = if *path == "/" { "index" } else { path };
+            }))
+            .await;
+        let path = if path == "/" {
+            "index".to_string()
+        } else {
+            path
+        };
         let data = mustache::MapBuilder::new()
             .insert_str("baseUrl", "/personal-site/")
             .insert_str("body", body)
@@ -48,22 +60,32 @@ fn main() {
 }
 
 #[cfg(feature = "dev")]
-fn main() {
+#[tokio::main]
+async fn main() {
     use rouille::Response;
-    use sqlx::SqlitePool;
+
+    let db_pool = SqlitePool::connect("data.db").await.unwrap();
+
+    let db_pool_clone = db_pool.clone();
+    let route_list = generate_route_list(move || {
+        App(AppProps {
+            path: "".to_string(),
+            db_pool: db_pool_clone,
+            base_url: "".to_string(),
+        })
+    });
+
     rouille::start_server("127.0.0.1:3000", move |request| {
-        if request.url() == "/" || request.url() == "/projects" || request.url() == "/movies" {
-            let template = mustache::compile_path("index.mustache").unwrap();
+        let template = mustache::compile_path("index.mustache").unwrap();
+        let db_pool = db_pool.clone();
+        if route_list.contains(&request.url()) {
+            let path = request.url();
 
             let rt = tokio::runtime::Runtime::new().unwrap();
 
             // Construct a local task set that can run `!Send` futures.
             let local = tokio::task::LocalSet::new();
-
-            let path = request.url();
-
             let body = local.block_on(&rt, async {
-                let db_pool = SqlitePool::connect("data.db").await.unwrap();
                 leptos::ssr::render_to_string_async(|| {
                     App(AppProps {
                         path,

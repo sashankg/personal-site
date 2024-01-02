@@ -20,7 +20,7 @@ rouille = { version = "3.6.2", optional = true }
 rss = { version="2.0.6", optional = true}
 serde = "1.0.193"
 sqlx = { version = "0.7.3", features = ["sqlite", "runtime-tokio", "macros"], optional=true }
-tokio = { version = "1.34.0", features = ["rt-multi-thread"], optional = true }
+tokio = { version = "1.34.0", features = ["rt-multi-thread", "macros"], optional = true }
 macros = { path = "./macros" }
 web-sys = "0.3.66"
 mustache = "0.9.0"
